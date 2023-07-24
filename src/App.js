@@ -3,7 +3,7 @@ import axios from "axios";
 import "./App.css";
 import ErrorModal from "./Errormodal";
 
-const App = () => {
+function App() {
   const [cityName, setCityName] = useState("");
   const [result, setResult] = useState(null);
   const [mapURL, setMapURL] = useState(null);
@@ -96,6 +96,6 @@ const App = () => {
       )}
     </div>
   );
-};
+}
 
 export default App;
