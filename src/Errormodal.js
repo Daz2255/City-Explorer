@@ -4,8 +4,8 @@ export default function ErrorModal({ errorCode, errorMessage, onClose }) {
   return (
     <div className="error-modal">
       <div className="error-modal-content">
-        <h2>Error</h2>
-        <p>Status Code: {errorCode}</p>
+        <h2>That's not a city!</h2>
+        <p>Please try again.</p>
         <p>{errorMessage}</p>
         <button onClick={onClose}>Close</button>
       </div>
