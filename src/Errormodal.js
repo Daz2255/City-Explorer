@@ -1,6 +1,6 @@
 import React from "react";
 
-const ErrorModal = ({ errorCode, errorMessage, onClose }) => {
+export default function ErrorModal({ errorCode, errorMessage, onClose }) {
   return (
     <div className="error-modal">
       <div className="error-modal-content">
@@ -11,6 +11,4 @@ const ErrorModal = ({ errorCode, errorMessage, onClose }) => {
       </div>
     </div>
   );
-};
-
-export default ErrorModal;
+}
