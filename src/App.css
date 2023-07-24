@@ -1,0 +1,9 @@
+h1 {
+  font-family: "Bungee Spice", cursive;
+}
+
+.map {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 1rem;
+}
