@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
+import ErrorModal from "./Errormodal";
 
 const App = () => {
   const [cityName, setCityName] = useState("");
   const [result, setResult] = useState(null);
   const [mapURL, setMapURL] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,11 +48,19 @@ const App = () => {
         console.error("Error fetching data:", error);
         setResult(null);
         setMapURL(null);
+        setError({
+          errorCode: error.response.status,
+          errorMessage: error.message,
+        });
       });
   };
 
+  const handleCloseError = () => {
+    setError(null);
+  };
+
   return (
-    <div>
+    <div className="cityform">
       <h1>City Explorer</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -67,21 +77,23 @@ const App = () => {
 
       <div>
         {result && (
-          <div>
+          <div className="results">
             <h2>Result:</h2>
             <p>City: {result.displayName}</p>
             <p>Latitude: {result.latitude}</p>
             <p>Longitude: {result.longitude}</p>
-            {mapURL && (
-              <img
-                src={mapURL}
-                alt="Location Map"
-                style={{ width: "100%", maxWidth: "500px", marginTop: "20px" }}
-              />
-            )}
+            {mapURL && <img className="map" src={mapURL} alt="Location Map" />}
           </div>
         )}
       </div>
+
+      {error && (
+        <ErrorModal
+          errorCode={error.errorCode}
+          errorMessage={error.errorMessage}
+          onClose={handleCloseError}
+        />
+      )}
     </div>
   );
 };
