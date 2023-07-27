@@ -38,7 +38,7 @@ function App() {
 
       try {
         const weatherResponse = await axios.get(
-          `https://city-exp-api.onrender.com//weather?lat=${latitude}&lon=${longitude}&searchQuery=${cityName}`
+          `https://city-exp-api.onrender.com/weather?lat=${latitude}&lon=${longitude}&searchQuery=${cityName}`
         );
 
         setForecasts(weatherResponse.data);
@@ -48,7 +48,7 @@ function App() {
       }
 
       const movieResponse = await axios.get(
-        `https://city-exp-api.onrender.com//movies?city=${encodeURIComponent(
+        `https://city-exp-api.onrender.com/movies?city=${encodeURIComponent(
           cityName
         )}`
       );
