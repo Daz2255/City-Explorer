@@ -1,6 +1,11 @@
 import React from "react";
 
 function Weather({ city, forecasts }) {
+  const formatDate = (dateString) => {
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    return new Date(dateString).toLocaleDateString("en-GB", options);
+  };
+
   return (
     <div>
       <h2>Weather Forecast for {city}</h2>
@@ -9,7 +14,7 @@ function Weather({ city, forecasts }) {
       ) : (
         forecasts.map((forecast) => (
           <div key={forecast.date}>
-            <p>Date: {forecast.date}</p>
+            <p>Date: {formatDate(forecast.date)}</p>
             <p>Description: {forecast.description}</p>
           </div>
         ))

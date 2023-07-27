@@ -3,6 +3,7 @@ import axios from "axios";
 import "./App.css";
 import ErrorModal from "./Errormodal";
 import Weather from "./Weather";
+import Movie from "./Movies";
 
 function App() {
   const [cityName, setCityName] = useState("");
@@ -10,28 +11,18 @@ function App() {
   const [mapURL, setMapURL] = useState(null);
   const [error, setError] = useState(null);
   const [forecasts, setForecasts] = useState(null);
+  const [movies, setMovies] = useState(null); // State to store movie data
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    getLocationDetails(cityName);
-
-    setCityName("");
-  };
-
-  const handleMap = (latitude, longitude) => {
-    const API = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_API_KEY}&center=${latitude},${longitude}&zoom=9`;
-    setMapURL(API);
-  };
-
-  const getLocationDetails = async (cityName) => {
-    const apiUrl = `https://eu1.locationiq.com/v1/search?key=${
-      process.env.REACT_APP_API_KEY
-    }&q=${encodeURIComponent(cityName)}&format=json`;
-
     try {
-      const response = await axios.get(apiUrl);
-      const result = response.data[0];
+      const locationResponse = await axios.get(
+        `https://eu1.locationiq.com/v1/search?key=${
+          process.env.REACT_APP_API_KEY
+        }&q=${encodeURIComponent(cityName)}&format=json`
+      );
+      const result = locationResponse.data[0];
 
       const latitude = result.lat;
       const longitude = result.lon;
@@ -47,7 +38,7 @@ function App() {
 
       try {
         const weatherResponse = await axios.get(
-          `http://localhost:8080/weather?lat=${latitude}&lon=${longitude}&searchQuery=${cityName}`
+          `https://city-exp-api.onrender.com//weather?lat=${latitude}&lon=${longitude}&searchQuery=${cityName}`
         );
 
         setForecasts(weatherResponse.data);
@@ -55,6 +46,14 @@ function App() {
         console.error("Error fetching weather data:", error);
         setForecasts([]);
       }
+
+      const movieResponse = await axios.get(
+        `https://city-exp-api.onrender.com//movies?city=${encodeURIComponent(
+          cityName
+        )}`
+      );
+
+      setMovies(movieResponse.data);
     } catch (error) {
       console.error("Error fetching data:", error);
       setResult(null);
@@ -63,7 +62,17 @@ function App() {
         errorCode: error.response ? error.response.status : null,
         errorMessage: error.message,
       });
+
+      setForecasts(null);
+      setMovies(null);
     }
+
+    setCityName("");
+  };
+
+  const handleMap = (latitude, longitude) => {
+    const API = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_API_KEY}&center=${latitude},${longitude}&zoom=9`;
+    setMapURL(API);
   };
 
   const handleCloseError = () => {
@@ -98,12 +107,31 @@ function App() {
         )}
       </div>
 
-      {forecasts !== null && forecasts.length > 0 ? (
-        <Weather city={result?.displayName} forecasts={forecasts} />
+      {result && forecasts !== null && forecasts.length > 0 && (
+        <div className="weather-data">
+          <Weather city={result?.displayName} forecasts={forecasts} />
+        </div>
+      )}
+
+      {movies !== null && movies.length > 0 ? (
+        <div className="movies-container">
+          <h2>Movies about {result?.displayName}</h2>
+          <div className="movies">
+            {movies.map((movie, index) => (
+              <Movie
+                key={index}
+                title={movie.title}
+                releaseDate={movie.releaseDate}
+                overview={movie.overview}
+                posterPath={movie.posterPath}
+              />
+            ))}
+          </div>
+        </div>
       ) : (
-        forecasts !== null && (
-          <div className="weather-data">
-            <p>No weather data available for {result?.displayName}</p>
+        movies !== null && (
+          <div className="movies">
+            <p>No movies found for {result?.displayName}</p>
           </div>
         )
       )}
