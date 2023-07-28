@@ -89,11 +89,11 @@ function App() {
         <h1>City Explorer</h1>
         <form onSubmit={handleSubmit}>
           <div>
-            Enter a city:
             <input
               type="text"
               required
               value={cityName}
+              placeholder="Enter a city"
               onChange={(e) => setCityName(e.target.value)}
             />
           </div>
