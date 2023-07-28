@@ -1,6 +1,42 @@
 h1 {
   font-family: "Bungee Spice", cursive;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: url("../public/city.jpg") center/cover fixed no-repeat;
+}
+
+.cityform-header {
+  display: flex;
+}
+
+.pill-btn {
+  display: inline-block;
+  box-sizing: border-box;
+  height: 30px;
+  line-height: 24px;
+  background: #f8a530;
+  padding: 0px 30px;
+  border-radius: 999em;
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  vertical-align: bottom;
+  white-space: nowrap;
+  border: 3px solid #f8a530;
+  font-family: lato;
+  letter-spacing: 2px;
+  transition: 0.15s background-color, 0.15s border-color, 0.15s color,
+    0.15s fill;
+  font-weight: 600;
+}
+.pill-btn:hover {
+  background: #f8ae30;
+  border: 3px solid #f8c930;
+}
+
 .cityform {
   max-width: 90vw;
   display: flex;
@@ -32,34 +68,6 @@ h1 {
 
 .movies-container {
   text-align: center; /* Center the heading */
-}
-
-.movies {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.movie-container {
-  flex: 0 0 calc(25% - 1rem); /* Display two movies per row with a small gap */
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-}
-
-.movie {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 1rem;
-}
-
-.movie img {
-  width: 200px;
-  max-height: 200px; /* Limit the height of the movie poster */
-  object-fit: cover; /* Maintain aspect ratio and cover the container */
-  margin-bottom: 1rem;
 }
 
 .modal {

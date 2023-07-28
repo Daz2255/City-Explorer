@@ -11,7 +11,7 @@ function App() {
   const [mapURL, setMapURL] = useState(null);
   const [error, setError] = useState(null);
   const [forecasts, setForecasts] = useState(null);
-  const [movies, setMovies] = useState(null); // State to store movie data
+  const [movies, setMovies] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +53,11 @@ function App() {
         )}`
       );
 
-      setMovies(movieResponse.data);
+      const moviesWithImages = movieResponse.data.filter(
+        (movie) => movie.posterPath
+      );
+
+      setMovies(moviesWithImages);
     } catch (error) {
       console.error("Error fetching data:", error);
       setResult(null);
@@ -81,20 +85,28 @@ function App() {
 
   return (
     <div className="cityform">
-      <h1>City Explorer</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          Enter a city:
-          <input
-            type="text"
-            required
-            value={cityName}
-            onChange={(e) => setCityName(e.target.value)}
-          />
-        </div>
-        <button type="submit">Explore!</button>
-      </form>
-
+      <div className="cityform-header">
+        <h1>City Explorer</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            Enter a city:
+            <input
+              type="text"
+              required
+              value={cityName}
+              onChange={(e) => setCityName(e.target.value)}
+            />
+          </div>
+        </form>
+        <button
+          className="pill-btn"
+          type="submit"
+          form="cityform"
+          onClick={handleSubmit}
+        >
+          Explore!
+        </button>
+      </div>
       <div>
         {result && (
           <div className="results">
