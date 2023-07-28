@@ -88,7 +88,7 @@ function App() {
       <div className="cityform-header">
         <h1>City Explorer</h1>
         <form onSubmit={handleSubmit}>
-          <div>
+          <div className="cityform-input">
             <input
               type="text"
               required
